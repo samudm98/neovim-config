@@ -1,3 +1,7 @@
+set runtimepath^=~/.vim runtimepath+=~/.vim/after
+let &packpath=&runtimepath
+source ~/.vimrc
+
 call plug#begin("~/.vim/plugged")
   " Theme
   Plug 'dracula/vim'
