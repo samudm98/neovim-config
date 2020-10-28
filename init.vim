@@ -3,12 +3,14 @@ let &packpath=&runtimepath
 source ~/.vimrc
 
 call plug#begin("~/.vim/plugged")
-  " Theme
+  " Themes
   Plug 'dracula/vim'
+  Plug 'morhetz/gruvbox'
 
   " Language Client
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
+  " Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  " let g:coc_global_extensions = ['coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-prettier', 'coc-tsserver']
+  
   " TypeScript Highlighting
   Plug 'leafgarland/typescript-vim'
   Plug 'peitalin/vim-jsx-typescript'
@@ -24,6 +26,34 @@ call plug#begin("~/.vim/plugged")
 
   " Blame for git
   Plug 'APZelos/blamer.nvim'
+
+  " easymotion
+  Plug 'easymotion/vim-easymotion'
+
+  " navigator move between windows 
+  Plug 'christoomey/vim-tmux-navigator'
+
+  " neo-completion
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+  " jedi deoplete
+  Plug 'zchee/deoplete-jedi'
+
+  " autocompletion brackets
+  Plug 'jiangmiao/auto-pairs'
+
+  " comment code
+  Plug 'scrooloose/nerdcommenter'
+
+  " Python go to code
+  Plug 'davidhalter/jedi-vim'
+  
+  " checker plugin
+  Plug 'neomake/neomake'
+
+  " mulity cursor
+  Plug 'terryma/vim-multiple-cursors'
+
 call plug#end()
 
 " Enable theming support
@@ -33,12 +63,22 @@ endif
 
 " Theme
 syntax enable
-colorscheme dracula
+colorscheme gruvbox
+
+" easymotion leader key
+let mapleader = " "
+nmap <Leader>s <Plug>(easymotion-s2)
+
+" personal key presets
+nmap <Leader>w :w<CR>
+nmap <Leader>q :q<CR>
 
 let g:NERDTreeShowHidden = 1
 let g:NERDTreeMinimalUI = 1
 let g:NERDTreeIgnore = []
 let g:NERDTreeStatusline = ''
+let NERDTreeQuitOnOpen=1
+
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 " Toggle
@@ -88,3 +128,19 @@ set number
 " config for git blame
 let g:blamer_delay = 500
 let g:blamer_enabled = 1
+
+let g:deoplete#enable_at_startup = 1
+
+" map autocompletion with tab
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+" disable autocompletion, because we use deoplete for completion
+let g:jedi#completions_enabled = 0
+
+" open the go-to function in split, not another buffer
+let g:jedi#use_splits_not_buffers = "right"
+
+" python checker
+let g:neomake_python_enabled_makers = ['pylint']
+call neomake#configure#automake('nrwi', 500)
+
